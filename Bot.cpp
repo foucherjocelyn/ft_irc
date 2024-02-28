@@ -9,7 +9,7 @@
 #include <cstring>
 #include <cctype>
 
-const int PORT = 4242; // Port IRC standard
+int PORT;
 const char* SERVER_IP = "127.0.0.1"; // Mettez l'adresse IP du serveur ici
 const int BUFFER_SIZE = 1024;
 
@@ -45,7 +45,10 @@ void sendReactionMessage(int clientSocket, std::string channel) {
     send(clientSocket, reactionMessage.c_str(), reactionMessage.length(), 0);
 }
 
-int main() {
+int main(int argc, char **argv) {
+    if (argc != 3)
+        return (1);
+    PORT = std::atoi(argv[1]);
     // Charger les insultes depuis le fichier
     std::set<std::string> badWords = loadBadWords("badwords.txt");
 
@@ -73,9 +76,10 @@ int main() {
     }
 
     std::cout << "Connecté au serveur." << std::endl;
-    send(clientSocket, "PASS pass\r\n", 11, 0);
+    std::string password = argv[2];
+    std::string message = "PASS " + password + "\r\n";
+    send(clientSocket, message.c_str(), message.length(), 0);
     send(clientSocket, "NICK bot\r\n", 10, 0);
-    // send(clientSocket, "JOIN T\r\n", 8, 0);
     // Boucle de traitement des messages
     while (true) {
     // Réception du message du serveur IRC
