@@ -46,8 +46,10 @@ void sendReactionMessage(int clientSocket, std::string channel) {
 }
 
 int main(int argc, char **argv) {
-    if (argc != 3)
+    if (argc != 3) {
+        std::cerr << "Usage : ./BOT <port> <password>\n" << std::endl;
         return (1);
+    }
     PORT = std::atoi(argv[1]);
     // Charger les insultes depuis le fichier
     std::set<std::string> badWords = loadBadWords("badwords.txt");

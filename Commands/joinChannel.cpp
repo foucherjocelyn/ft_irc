@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   joinChannel.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syakovle <syakovle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thrio <thrio@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:14:04 by thrio             #+#    #+#             */
-/*   Updated: 2024/02/27 17:09:07 by syakovle         ###   ########.fr       */
+/*   Updated: 2024/02/28 15:14:22 by thrio            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,11 @@ void Server::casePasswd(int clientSocket, std::deque<Client>::iterator senderCli
                 continue;
             }
             _channels[channelName]->ClientJoin(*senderClient);
-        } else
+        } else {
             _channels[channelName] = new Channel(*senderClient, channelName);
+            if (!_channels[channelName]) 
+                throw std::bad_alloc();
+        }
         if (itPassword != password.end())
             itPassword++;
     }
@@ -80,6 +83,8 @@ void Server::caseNormal(int clientSocket, std::deque<Client>::iterator senderCli
         }
         else {
             _channels[channelName] = new Channel(*senderClient, channelName);
+            if (!_channels[channelName]) 
+                throw std::bad_alloc();
         }
     }
 }

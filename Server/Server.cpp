@@ -4,7 +4,10 @@
 #include <stdio.h>
 #include <signal.h>
 
-Server::Server(int port, std::string password) : _port(port), _maxFd(0), _password(password) {
+Server::Server(int port, char *password) {
+    _port = port;
+    _maxFd = 0;
+    _password = password;
     _serverSocket = createSocket();
     FD_ZERO(&_masterSet);
     FD_SET(_serverSocket, &_masterSet);

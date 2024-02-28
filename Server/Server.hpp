@@ -46,7 +46,7 @@ struct Command {
 
 class Server {
 public:
-    Server(int _port, std::string _password);
+    Server(int _port, char *_password);
     ~Server();
     void start();
     int bindSocket();
